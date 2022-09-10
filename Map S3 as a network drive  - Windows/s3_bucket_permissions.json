@@ -1,0 +1,63 @@
+// In place of "USER_NAME" insert IAM Usernmae from AWS.
+// In place of "BUCKET_NAME" insert your S3 Bucket name from AWS.
+// In place of "USER_ARN_NUMBER" insert the user ARN number form AWS. 
+// In place of "REGION" insert the AWS region of your S3 Bucket. 
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "1",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::USER_ARN_NUMBER:user/USER_NAME"
+            },
+            "Action": [
+                "s3:ListBucket",
+                "s3:DeleteObject",
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::BUCKET_NAME",
+                "arn:aws:s3:::BUCKET_NAME/*"
+            ]
+        },
+        {
+            "Sid": "AWSLogDeliveryWrite",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "delivery.logs.amazonaws.com"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::BUCKET_NAME/AWSLogs/USER_ARN_NUMBER/*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceAccount": "USER_ARN_NUMBER",
+                    "s3:x-amz-acl": "bucket-owner-full-control"
+                },
+                "ArnLike": {
+                    "aws:SourceArn": "arn:aws:logs:REGION:USER_ARN_NUMBER:*"
+                }
+            }
+        },
+        {
+            "Sid": "AWSLogDeliveryAclCheck",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "delivery.logs.amazonaws.com"
+            },
+            "Action": "s3:GetBucketAcl",
+            "Resource": "arn:aws:s3:::BUCKET_NAME",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceAccount": "USER_ARN_NUMBER"
+                },
+                "ArnLike": {
+                    "aws:SourceArn": "arn:aws:logs:REGION:USER_ARN_NUMBER:*"
+                }
+            }
+        }
+    ]
+}
