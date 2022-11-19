@@ -1,0 +1,8 @@
+[systemvalidatation]
+type = s3
+provider = AWS
+env_auth = false
+access_key_id = AKIA3SD3ZPGWIUGPROVD
+secret_access_key = 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
+region = eu-central-1
+
