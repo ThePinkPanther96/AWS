@@ -29,7 +29,7 @@ In this section, we will configure a new S3 Bucket with the correct permissions,
 5. Under "Key" write "Name" and under Value Write the name of the new IAM user > click "Next".
 6. Review the user settings and click "Create user".
   
-   #### NOTE! #### Make sure to save the user's "Access key ID" and "Secret access key". you will need them later.
+  #### NOTE! Make sure to save the user's "Access key ID" and "Secret access key". you will need them later.
 
 
 
