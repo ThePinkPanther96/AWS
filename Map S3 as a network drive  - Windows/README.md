@@ -32,5 +32,43 @@ In this section, we will configure a new S3 Bucket with the correct permissions,
   #### NOTE! Make sure to save the user's "Access key ID" and "Secret access key". you will need them later.
 
 
+### Create S3 Bucket
+In this part we will make the S3 Bucket and pair it with group and user that we made previously.
+
+1. Navigate to "S3" > "Create bucket".
+2. Give the bucket the same name as the IAM user you've created previously.
+3. Make sure that you are at the right AWS Region and that "Block Public Access sttings" are set on "Block all public access".
+4. Click on "Create bucket".
+5. Navigate back to the bucket > Permissions > Bucket policy > Edit
+6. In the text editor and paste the content of "s3_bucket_permissions.json" After editing the file according to your configuration layout (see instructions in the JSON file). 
+7. Click on "Save Changes" and you are done with AWS.
+
+
+## Client side
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
