@@ -13,9 +13,70 @@ I first encountered this great open-source solution when I was tasked in my job 
 ## AWS side
 In this section, we will configure a new S3 Bucket with the correct permissions, an IAM user, and an IAM group that will be used to interact with the bucket. 
 
-### Create IAM user
-1. g
-2. 2
-3. g
-4. h
+### Create IAM group
+1. Login to AWS admin console.
+3. Navigate to IAM > User groups > Create group (I named my group "s3fs-windows" so it will be easally recoznizable).
+4. Navigate to the newly created IAM group > Permissions > Add premissions > Create inline policy > JSON
+5. Clear the text editor and paste the contant of "s3_bucket_permissions.json" (After editing the file accurding to your configuration layout), or copy the following:
+   ```
+   {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "1",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::USER_ARN_NUMBER:user/USER_NAME"
+            },
+            "Action": [
+                "s3:ListBucket",
+                "s3:DeleteObject",
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::BUCKET_NAME",
+                "arn:aws:s3:::BUCKET_NAME/*"
+            ]
+        },
+        {
+            "Sid": "AWSLogDeliveryWrite",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "delivery.logs.amazonaws.com"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::BUCKET_NAME/AWSLogs/USER_ARN_NUMBER/*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceAccount": "USER_ARN_NUMBER",
+                    "s3:x-amz-acl": "bucket-owner-full-control"
+                },
+                "ArnLike": {
+                    "aws:SourceArn": "arn:aws:logs:REGION:USER_ARN_NUMBER:*"
+                }
+            }
+        },
+        {
+            "Sid": "AWSLogDeliveryAclCheck",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "delivery.logs.amazonaws.com"
+            },
+            "Action": "s3:GetBucketAcl",
+            "Resource": "arn:aws:s3:::BUCKET_NAME",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceAccount": "USER_ARN_NUMBER"
+                },
+                "ArnLike": {
+                    "aws:SourceArn": "arn:aws:logs:REGION:USER_ARN_NUMBER:*"
+                }
+            }
+        }
+    ]
+}
+   ```
+    
 
