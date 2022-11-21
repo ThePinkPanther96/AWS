@@ -10,6 +10,7 @@ I first encountered this great open-source solution when I was tasked in my job 
 - Basic understanding in PowerShell.
 - Basic understanding in JSON.
 
+
 ## AWS side
 In this section, we will configure a new S3 Bucket with the correct permissions, an IAM user, and an IAM group that will be used to interact with the bucket. 
 
