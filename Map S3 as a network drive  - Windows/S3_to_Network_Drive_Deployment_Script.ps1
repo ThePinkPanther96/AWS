@@ -51,37 +51,39 @@ if (Get-ScheduledTaskInfo -TaskName "Rclone") {
 }
 
 else {
-   
-    ## Create a new task action
-    $Action = New-ScheduledTaskAction `
-        -Execute 'powershell.exe' `
-        -Argument '-WindowStyle hidden -file C:\Rclone\Rclone.ps1'
-
-    ## Create a new trigger (At LogOn)
-    $Trigger = New-ScheduledTaskTrigger -AtLogOn
-
+    
     ## The name & Description of the scheduled task.
     $TaskName = "Rclone"
     $Description = "Map AWS S3 to Windows Network Drive"
-
-    ## Set the task principal's user ID and run level.
-    $TaskPrincipal = New-ScheduledTaskPrincipal -UserId "LOCALSERVICE" -LogonType ServiceAccount
-
-    ## Set the task compatibility value to Windows 7.
-    $Compatibility = New-ScheduledTaskSettingsSet -Compatibility Win7
-
-    ## Register the scheduled task
+    
+    ## Create a new task action
+    $TaskAction = New-ScheduledTaskAction `
+        -Execute 'powershell.exe' `
+        -Argument '-WindowStyle hidden -file C:\Rclone\Rclone.ps1'
+    
+    ## Create a new trigger (At LogOn)
+    $TaskTriger = New-ScheduledTaskTrigger -AtLogOn
+    
     Register-ScheduledTask `
         -TaskName $TaskName `
-        -Action $Action `
-        -Trigger $Trigger `
-        -Description $description `
-        -User "System" `
+        -Action $TaskAction `
+        -Trigger $TaskTriger `
+        -Description $Description `
+        -User "System"
     
-    ## Set vadditional settings.
-    Set-ScheduledTask -TaskName $TaskName -Settings $Compatibility -Principal $TaskPrincipal
+    ## Set the task principal's user ID and run level.
+    $TaskPrincipal = New-ScheduledTaskPrincipal `
+        -UserId "LOCALSERVICE" `
+        -LogonType ServiceAccount `
+        -RunLevel Highest 
+    
+    ## Set the task compatibility value to Windows 7
+    ## Making sure it runs well on laptops as well.
+    $TaskSettings = New-ScheduledTaskSettingsSet -Compatibility Win7 -AllowStartIfOnBatteries:$true
+    
+    ##Set vadditional settings.
+    Set-ScheduledTask -TaskName $TaskName -Principal $TaskPrincipal -Settings $TaskSettings
     
     Write-Host "Task Installed!" -ForegroundColor "Yellow" -BackgroundColor "DarkGreen"
-    
-    break
+
 }
