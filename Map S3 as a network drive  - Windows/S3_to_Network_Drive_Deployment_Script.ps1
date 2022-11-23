@@ -14,8 +14,6 @@ else { ##Transfering Data from AWS S3 to the target path.
     
     Invoke-WebRequest -Uri https://<S3 URL>.amazonaws.com/rclone/rclone.ps1 -OutFile "C:\Rclone\Rclone.ps1" # starting file
     
-    Invoke-WebRequest -Uri https://<S3 URL>.amazonaws.com/rclone/rclone/rclone.1 -OutFile "C:\Rclone\Rclone\rclone.1" # Rclone settings file
-    
     Invoke-WebRequest -Uri https://<S3 URL>.amazonaws.com/rclone/rclone/rclone.exe -OutFile "C:\Rclone\Rclone\rclone.exe" # Installation exe
    
     Invoke-WebRequest -Uri https://<S3 URL>.amazonaws.com/rclone/rclone/rclone.conf -OutFile "C:\Rclone\Rclone\rclone.conf" # Costume configuration file 
@@ -69,13 +67,13 @@ else {
         -Action $TaskAction `
         -Trigger $TaskTriger `
         -Description $Description `
-        -User "System"
+        -User "System" `
     
     ## Set the task principal's user ID and run level.
     $TaskPrincipal = New-ScheduledTaskPrincipal `
         -UserId "LOCALSERVICE" `
         -LogonType ServiceAccount `
-        -RunLevel Highest 
+        -RunLevel Highest `
     
     ## Set the task compatibility value to Windows 7
     ## Making sure it runs well on laptops as well.
