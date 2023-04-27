@@ -109,7 +109,7 @@ Just edit the script according to your specifications.
 
 I hope this guide has provided you with all the information you need to get started with my project. 
 Please fill free to contact me with any suggestions or questions that you may have. 
-Thanks a lot!. :)
+Thanks a lot!. :smiley: 
 
 
 
