@@ -64,7 +64,7 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
   cmd /c "c:\rclone\rclone\rclone.exe"  mount <DriveName>:/<DriveName>/ <DriveLetter>: --vfs-cache-mode full 
   ```
  ## Creating scheduled task to mount the drive on each system startup
-   Use the following script to create the task:
+   Use the following PowerShell script to create the task:
    ```nh
    	$Action = New-ScheduledTaskAction `
 	        -Execute 'powershell.exe' `
