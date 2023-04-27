@@ -52,21 +52,44 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
 3. Create a new direcrory: C:\Rlone\Rclone
 4. Navigate to C:\Rlone\Rclone and paste the following from this repository:
   - rclone.conf
-  - rclone (app)
+  - rclone.exe
 5. Edit rclone.conf and complete the following parameters under [BucketName]:
   - access_key_id = 
   - secret_access_key = 
   - region = 
   For additional configuration options refer to the official Rclone guide: 	https://rclone.org/s3/#configuration
  6. After completing the configuration precess, use the Rclone.ps1 to mount the network drive.
-  Alternatively, you can mount the drive and set a drive letter (in this case I used drive letter 'Q') by typing the following command line:
+  Alternatively, you can mount the drive and set a drive letter by typing the following command line:
   ```nh
-  cmd /c "c:\rclone\rclone\rclone.exe"  mount systemvalidatation:/systemvalidatation/ Q: --vfs-cache-mode full 
+  cmd /c "c:\rclone\rclone\rclone.exe"  mount <DriveName>:/<DriveName>/ <DriveLetter>: --vfs-cache-mode full 
   ```
-  
+ ## Creating scheduled task to mount the drive on each system startup
+   Use the following script to create the task:
+   ```nh
+   	$Action = New-ScheduledTaskAction `
+	        -Execute 'powershell.exe' `
+	        -Argument '-WindowStyle hidden -file C:\Rclone\Rclone.ps1'
+	    ## Create a new trigger (At LogOn)
+	    $Trigger = New-ScheduledTaskTrigger -AtLogOn
+	    ## The name & Description of the scheduled task.
+	    $TaskName = "Rclone"
+	    $Description = "Map AWS S3 to Windows Network Drive"
+	    ## Set the task principal's user ID and run level.
+	    $TaskPrincipal = New-ScheduledTaskPrincipal -UserId "LOCALSERVICE" -LogonType ServiceAccount
+	    ## Set the task compatibility value to Windows 7.
+	    $Compatibility = New-ScheduledTaskSettingsSet -Compatibility Win7
+	    ## Register the scheduled task
+	    Register-ScheduledTask `
+	        -TaskName $TaskName `
+	        -Action $Action `
+	        -Trigger $Trigger `
+	        -Description $description `
+	        -User "System" `
+	    
+	    ##Set vadditional settings.
+    Set-ScheduledTask -TaskName $TaskName -Settings $Compatibility -Principal $TaskPrincipal
 
-
-
+   ```
 
 
 
