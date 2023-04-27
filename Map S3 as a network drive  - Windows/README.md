@@ -57,30 +57,10 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
   - access_key_id = 
   - secret_access_key = 
   - region = 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-For adidtional configuration optiond refer to the officail Rclone guide: https://rclone.org/s3/#configuration![image](https://user-images.githubusercontent.com/112376660/234847898-ba9ee691-41d9-4e41-b0bf-4aea08798f39.png)
-
-
-
-
-
-
-
-
+ 
+  For adidtional configuration optiond refer to the officail Rclone guide: 	https://rclone.org/s3/#configuration
+![image](https://user-images.githubusercontent.com/112376660/234848287-3f031986-55cb-45ee-88e0-c0616ed9e474.png)
+ 
 
 
 
