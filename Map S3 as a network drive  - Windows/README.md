@@ -91,8 +91,10 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
 
    ```
 
-
-
+### Alternitavly you can edit and use the "S3_to_Network_Drive_Deployment_Script.ps1" that I'v writing to automaticly:
+1. Create the local directories.
+2. Pull and execute the installation files from AWS S3 Bucket.
+3. 
 
 
 
