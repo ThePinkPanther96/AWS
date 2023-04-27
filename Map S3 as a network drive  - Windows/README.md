@@ -57,6 +57,8 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
   - access_key_id = 
   - secret_access_key = 
   - region = 
+
+
 For additional configuration options refer to the official Rclone guide: 	https://rclone.org/s3/#configuration
  6. After completing the configuration precess, use the Rclone.ps1 to mount the network drive.
   Alternatively, you can mount the drive and set a drive letter by typing the following command line:
