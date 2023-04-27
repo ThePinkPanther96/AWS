@@ -51,7 +51,10 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
 2. Download and install Rclone 64 bit by downloading it from Rclone official website: https://downloads.rclone.org/v1.58.1/rclone-v1.58.1-windows-amd64.zip![image](https://user-images.githubusercontent.com/112376660/234830737-818f171c-ae1b-4be6-8fd5-5158c6f9c397.png)
 3. Create a new direcrory: C:\Rlone\Rclone
 4. Navigate to C:\Rlone\Rclone and paste the following from this repository:
-  - https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/rclone.conf
+  - rclone.conf
+  - rclone (app)
+5. Edit rclone.conf and complete the following parameters:
+  - 
 
 
 
