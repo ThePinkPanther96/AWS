@@ -66,40 +66,50 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
  ## Creating scheduled task to mount the drive on each system startup
    Use the following PowerShell script to create the task:
    ```nh
-   	$Action = New-ScheduledTaskAction `
-	        -Execute 'powershell.exe' `
-	        -Argument '-WindowStyle hidden -file C:\Rclone\Rclone.ps1'
-	    ## Create a new trigger (At LogOn)
-	    $Trigger = New-ScheduledTaskTrigger -AtLogOn
-	    ## The name & Description of the scheduled task.
-	    $TaskName = "Rclone"
-	    $Description = "Map AWS S3 to Windows Network Drive"
-	    ## Set the task principal's user ID and run level.
-	    $TaskPrincipal = New-ScheduledTaskPrincipal -UserId "LOCALSERVICE" -LogonType ServiceAccount
-	    ## Set the task compatibility value to Windows 7.
-	    $Compatibility = New-ScheduledTaskSettingsSet -Compatibility Win7
-	    ## Register the scheduled task
-	    Register-ScheduledTask `
-	        -TaskName $TaskName `
-	        -Action $Action `
-	        -Trigger $Trigger `
-	        -Description $description `
-	        -User "System" `
-	    
-	    ##Set vadditional settings.
-    Set-ScheduledTask -TaskName $TaskName -Settings $Compatibility -Principal $TaskPrincipal
-
+   	## The name & Description of the scheduled task.
+    $TaskName = "Rclone"
+    $Description = "Map AWS S3 to Windows Network Drive"
+    
+    ## Create a new task action
+    $TaskAction = New-ScheduledTaskAction `
+        -Execute 'powershell.exe' `
+        -Argument '-WindowStyle hidden -file C:\Rclone\Rclone.ps1'
+    
+    ## Create a new trigger (At LogOn)
+    $TaskTriger = New-ScheduledTaskTrigger -AtLogOn
+    
+    Register-ScheduledTask `
+        -TaskName $TaskName `
+        -Action $TaskAction `
+        -Trigger $TaskTriger `
+        -Description $Description `
+        -User "System" `
+    
+    ## Set the task principal's user ID and run level.
+    $TaskPrincipal = New-ScheduledTaskPrincipal `
+        -UserId "LOCALSERVICE" `
+        -LogonType ServiceAccount `
+        -RunLevel Highest `
+    
+    ## Set the task compatibility value to Windows 7
+    ## Making sure it runs well on laptops as well.
+    $TaskSettings = New-ScheduledTaskSettingsSet -Compatibility Win7 -AllowStartIfOnBatteries:$true
+    
+    ##Set vadditional settings.
+    Set-ScheduledTask -TaskName $TaskName -Principal $TaskPrincipal -Settings $TaskSettings
    ```
 
-### Alternitavly you can edit and use the "S3_to_Network_Drive_Deployment_Script.ps1" that I'v writing to automaticly:
-1. Create the local directories.
-2. Pull and execute the installation files from AWS S3 Bucket.
-3. 
+Alternatively you can edit and use the "S3_to_Network_Drive_Deployment_Script.ps1" that I'v writing to automatically:
+- Create the local directories.
+- Pull and execute the installation files from AWS S3 Bucket.
+- Mount the drive. 
+- create the task.
+Just edit the script according to your specifications. 
 
 
-
-
-
+I hope this guide has provided you with all the information you need to get started with my project. 
+Please fill free to contact me with any suggestions or questions that you may have. 
+Thanks a lot!. :)
 
 
 
