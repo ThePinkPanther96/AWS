@@ -45,7 +45,9 @@ In this part we will make the S3 Bucket and pair it with group and user that we 
 
 
 ## Client side
+Now let's move to the client's side, where the actual "Network Drive" will be mounted. In this case, I'm using a Windows 10 machine.
 
+1. Install WinFsp by using https://github.com/ThePinkPanther96/AWS/raw/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/winfsp-1.10.22006.msi, tha downloading the latest version from the WinFsp website ot GitHub Repo. 
 
 
 
