@@ -47,7 +47,9 @@ In this part we will make the S3 Bucket and pair it with group and user that we 
 ## Client side
 Now let's move to the client's side, where the actual "Network Drive" will be mounted. In this case, I'm using a Windows 10 machine.
 
-1. Install WinFsp by using https://github.com/ThePinkPanther96/AWS/raw/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/winfsp-1.10.22006.msi, tha downloading the latest version from the WinFsp website ot GitHub Repo. 
+1. Download and install WinFsp by using the MSI package from this repository, or downloading the latest version from the WinFsp official website or GitHub Repository: https://github.com/winfsp/winfsp/releases/download/v1.10/winfsp-1.10.22006.msi![image](https://user-images.githubusercontent.com/112376660/234830822-6d51374f-ef2b-469a-ac13-cbd64425c6e0.png)
+2. Download and install Rclone 64 bit by downloading it from Rclone official website: https://downloads.rclone.org/v1.58.1/rclone-v1.58.1-windows-amd64.zip![image](https://user-images.githubusercontent.com/112376660/234830737-818f171c-ae1b-4be6-8fd5-5158c6f9c397.png)
+
 
 
 
