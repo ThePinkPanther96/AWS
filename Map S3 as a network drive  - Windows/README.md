@@ -99,7 +99,7 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
     Set-ScheduledTask -TaskName $TaskName -Principal $TaskPrincipal -Settings $TaskSettings
    ```
 
-Alternatively you can edit and use the "S3_to_Network_Drive_Deployment_Script.ps1" that I'v writing to automatically:
+Alternatively you can edit and use the https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/S3_to_Network_Drive_Deployment_Script.ps1 that I've writing to automatically:
 - Create the local directories.
 - Pull and execute the installation files from AWS S3 Bucket.
 - Mount the drive. 
