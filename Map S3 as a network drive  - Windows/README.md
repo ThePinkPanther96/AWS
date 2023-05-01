@@ -97,7 +97,7 @@ For additional configuration options refer to the official Rclone guide: 	https:
     ## Making sure it runs well on laptops as well.
     $TaskSettings = New-ScheduledTaskSettingsSet -Compatibility Win7 -AllowStartIfOnBatteries:$true
     
-    ##Set vadditional settings.
+    ## Set vadditional settings.
     Set-ScheduledTask -TaskName $TaskName -Principal $TaskPrincipal -Settings $TaskSettings
    ```
 
@@ -112,7 +112,7 @@ Use the comments in the sript to help you with the configuration.
 
 I hope this guide has provided you with all the information you need to get started with my project. 
 Please fill free to contact me with any suggestions or questions that you may have. 
-Thanks a lot!. :smiley: 
+Thanks a lot! :smiley: 
 
 
 
