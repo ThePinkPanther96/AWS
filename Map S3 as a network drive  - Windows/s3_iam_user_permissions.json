@@ -1,4 +1,5 @@
-//  iN PLACE OF "BUCKET_NAME" Insert the S3 Bucket name. 
+// Replace "BUCKET_NAME" with the name of your S3 Bucket in AWS.
+//DO NOT FORGET TO DELETE THE COMMNETS FROM THE FILE!!
 
 {
     "Version": "2012-10-17",
