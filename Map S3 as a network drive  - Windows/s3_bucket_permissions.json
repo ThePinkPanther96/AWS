@@ -1,7 +1,9 @@
-// In place of "USER_NAME" insert IAM Usernmae from AWS.
-// In place of "BUCKET_NAME" insert your S3 Bucket name from AWS.
-// In place of "USER_ARN_NUMBER" insert the user ARN number form AWS. 
-// In place of "REGION" insert the AWS region of your S3 Bucket. 
+// Replace "USER_NAME" with the IAM Username from your AWS account.
+// Replace "BUCKET_NAME" with the name of your S3 Bucket in AWS.
+// Replace "USER_ARN_NUMBER" with the ARN number of the user from your AWS account.
+// Replace "REGION" with the AWS region where your S3 Bucket is located.
+
+//DO NOT FORGET TO DELETE THE COMMNETS FROM THE FILE!!
 
 {
     "Version": "2012-10-17",

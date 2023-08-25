@@ -4,13 +4,13 @@ if (Test-Path -Path "C:\Rclone\Rclone") {
     Write-Host "S3 Mount already exists!" -BackgroundColor "Red" -ForegroundColor "DarkRed"
 }
 
-else { ##Transfering Data from AWS S3 to the target path.
+else { ## Transfering Data from AWS S3 to the target path.
 
     New-Item -ItemType Directory -Path C:\Rclone\Rclone 
+    # Enter the AWS S3 URL for deploying configuration and installation files.
+    # Replace "<S3 URL>" with the file path URLs from your deployment S3 Bucket.
+    # This script retrieves the Rclone start script, installation executable, and config file from the S3 bucket to the target machine.
 
-    # Insert the AWS S3 URL for the deployment of the configuration files and installation files. 
-    # In place of "<S3 URL>" insert the files path URLs from your deplyment S3 Bucket.  
-    # The script pulls the Rclone start script, installation exe and config file from S3 bucket to the destinations machine.  
     
     Invoke-WebRequest -Uri https://<S3 URL>.amazonaws.com/rclone/rclone.ps1 -OutFile "C:\Rclone\Rclone.ps1" # starting file
     
@@ -22,9 +22,10 @@ else { ##Transfering Data from AWS S3 to the target path.
 }
     if (!(Test-Path -Path"C:\Program Files (x86)\WinFsp")) {
 
-        # Insert the AWS S3 URL for the deployment and installation of WinFsp MSI.
-        # Put your deployment S3 URL IN PLACE OF <S3 URL> !!
-        ## Transfering and installing Winfsp.msi on the target system.
+        # Provide the AWS S3 URL for deploying and installing the WinFsp MSI.
+        # Replace <S3 URL> with your actual deployment S3 URL.
+        ## Transferring and installing Winfsp.msi on the target system.
+
         Invoke-WebRequest -Uri https://<S3 URL>.amazonaws.com/winfsp-1.10.22006.msi -OutFile "C:\Windows\Temp\winfsp-1.10.22006.msi"
 
         ## Installing WinFsp setup. 

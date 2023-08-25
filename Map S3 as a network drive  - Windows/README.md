@@ -111,11 +111,9 @@ Just edit the script according to your specifications.
 Use the comments in the script to help you with the configuration.  
 
 
-I hope this guide has provided you with all the information you need to get started with my project. 
-Please feel free to contact me with any suggestions or questions that you may have. 
-Thanks a lot! :smiley: 
-
-
+I trust this guide equips you with the essential information to commence your project.
+Should you have any inquiries or suggestions, please don't hesitate to reach out to me.
+Many thanks! 😊
 
 
 
