@@ -7,7 +7,7 @@ I first came across this remarkable open-source solution when I was assigned the
 
 ## Requirements
 - An active AWS account with administrative privileges.
-- Windows 10 based endpoint.
+- Windows 10 client.
 - Basic understanding of PowerShell.
 - Basic understanding of JSON.
 
