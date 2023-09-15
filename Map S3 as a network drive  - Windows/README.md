@@ -67,7 +67,7 @@ For additional configuration options refer to the official Rclone guide: 	https:
   cmd /c "c:\rclone\rclone\rclone.exe"  mount <DriveName>:/<DriveName>/ <DriveLetter>: --vfs-cache-mode full 
   ```
  ## Creating scheduled task to mount the drive on each system startup
-   Use the following PowerShell script to create the task:
+   Use the following code block to create the task:
    ```nh
    	## The name and description of the scheduled task.
     $TaskName = "Rclone"
