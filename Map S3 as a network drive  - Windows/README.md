@@ -19,8 +19,8 @@ In this section, we will configure a new S3 Bucket with the correct permissions,
 1. Login to the AWS admin console.
 3. Navigate to **IAM > User groups > Create group** (I named my group "s3fs-windows" so it will be easily recognizable).
 4. Navigate to the newly created **IAM group > Permissions > Add permissions > Create inline policy > JSON**
-5. Clear the text editor and paste the content of [**"s3_iam_user_permissions.json"**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_iam_user_permissions.json) After editing the file according to your configuration layout (see instructions in the JSON file).
-6. Click on "Review policy" and you are done with the group for now. 
+5. Clear the text editor and paste the content of [**s3_iam_user_permissions.json**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_iam_user_permissions.json) After editing the file according to your configuration layout (see instructions in the JSON file).
+6. Click on **"Review policy"** and you are done with the group for now. 
 
 ### Create an IAM user
 1. Navigate to **IAM > Users > Add users** 
@@ -41,7 +41,7 @@ In this part, we will make the S3 Bucket and pair it with the group and user tha
 3. Make sure that you are in the right AWS Region and that **"Block Public Access settings"** are set on **"Block all public access"**
 4. Click on **"Create bucket"**
 5. Navigate back to the **bucket > Permissions > Bucket policy > Edit**
-6. In the text editor paste the content of [**"s3_bucket_permissions.json"**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_bucket_permissions.json) After editing the file according to your configuration layout (see instructions in the JSON file). 
+6. In the text editor paste the content of [**s3_bucket_permissions.json**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_bucket_permissions.json) After editing the file according to your configuration layout (see instructions in the JSON file). 
 7. Click on **"Save Changes"** and you are done with AWS.
 
 
