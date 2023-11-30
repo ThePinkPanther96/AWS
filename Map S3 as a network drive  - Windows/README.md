@@ -1,8 +1,8 @@
 # Map S3 Bucket to a network shared drive on Windows
 ## Introduction
-In this tutorial, I will guide you through the process of transforming a regular AWS S3 Bucket into a functional shared network drive on your Windows endpoint. By utilizing a few open-source tools and a straightforward PowerShell script, you can easily and affordably establish a solution for storing and sharing extensive data across multiple endpoints. This approach eliminates the necessity of consistently monitoring disk space and expanding storage capacity. Since it relies on the foundation of an S3 Bucket, the storage is elastic, dynamically scaling to meet demand without requiring initial provisioning.
+In this tutorial, I will guide you through the process of transforming a standard AWS S3 Bucket into a fully functional shared network drive on your Windows endpoint. By leveraging a few open-source tools and a straightforward PowerShell script, you can easily and affordably establish a solution for storing and sharing extensive data across multiple endpoints. This approach eliminates the need for consistently monitoring disk space and expanding storage capacity. Since it relies on the foundation of an S3 Bucket, the storage is elastic, dynamically scaling to meet demand without requiring initial provisioning.
 
-I first came across this remarkable open-source solution when I was assigned the task of conceptualizing and implementing a strategy for storing a substantial volume of system logs for our QA team in my role. So, let's begin this journey!
+I first encountered this remarkable open-source solution when tasked with conceptualizing and implementing a strategy for storing a substantial volume of system logs for our QA team in my role.
 
 
 ## Requirements
@@ -17,18 +17,18 @@ In this section, we will configure a new S3 Bucket with the correct permissions,
 
 ### Create an IAM group
 1. Login to the AWS admin console.
-3. Navigate to IAM > User groups > Create group (I named my group "s3fs-windows" so it will be easily recognizable).
-4. Navigate to the newly created IAM group > Permissions > Add permissions > Create inline policy > JSON
-5. Clear the text editor and paste the content of "s3_iam_user_permissions.json" After editing the file according to your configuration layout (see instructions in the JSON file).
+3. Navigate to **IAM > User groups > Create group** (I named my group "s3fs-windows" so it will be easily recognizable).
+4. Navigate to the newly created **IAM group > Permissions > Add permissions > Create inline policy > JSON**
+5. Clear the text editor and paste the content of [**"s3_iam_user_permissions.json"**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_iam_user_permissions.json) After editing the file according to your configuration layout (see instructions in the JSON file).
 6. Click on "Review policy" and you are done with the group for now. 
 
 ### Create an IAM user
-1. Navigate to IAM > Users > Add users 
+1. Navigate to **IAM > Users > Add users** 
 2. Name the new user (The same name that will be given to the network drive).
-3. Under "Select AWS credentials type" select "Access key" and then click "Next".
-4. Select "Add user to group" > select the group that you created previously > click "Next".
-5. Under "Key" write "Name" and under Value Write the name of the new IAM user > click "Next".
-6. Review the user settings and click "Create user".
+3. Under **"Select AWS credentials type"** select **"Access key"** and then click **"Next"**
+4. Select **"Add user to group" > select the group that you created previously > click "Next"**
+5. Under **"Key"** write **"Name"** and under Value Write the name of the new **IAM user > click "Next"**
+6. Review the user settings and click **"Create user"**
   
   #### NOTE! Make sure to save the user's "Access key ID" and "Secret access key". you will need them later.
 
@@ -36,13 +36,13 @@ In this section, we will configure a new S3 Bucket with the correct permissions,
 ### Create S3 Bucket
 In this part, we will make the S3 Bucket and pair it with the group and user that we made previously.
 
-1. Navigate to "S3" > "Create bucket".
+1. Navigate to **"S3" > "Create bucket"**
 2. Give the bucket the same name as the IAM user you've created previously.
-3. Make sure that you are at the right AWS Region and that "Block Public Access settings" are set on "Block all public access".
-4. Click on "Create bucket".
-5. Navigate back to the bucket > Permissions > Bucket policy > Edit
-6. In the text editor paste the content of "s3_bucket_permissions.json" After editing the file according to your configuration layout (see instructions in the JSON file). 
-7. Click on "Save Changes" and you are done with AWS.
+3. Make sure that you are in the right AWS Region and that **"Block Public Access settings"** are set on **"Block all public access"**
+4. Click on **"Create bucket"**
+5. Navigate back to the **bucket > Permissions > Bucket policy > Edit**
+6. In the text editor paste the content of [**"s3_bucket_permissions.json"**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_bucket_permissions.json) After editing the file according to your configuration layout (see instructions in the JSON file). 
+7. Click on **"Save Changes"** and you are done with AWS.
 
 
 ## Client side
@@ -50,7 +50,7 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
 
 1. Download and install the latest version of the WinFsp MSI package from the [WinFsp official website](https://github.com/winfsp/winfsp/releases/download/v2.0/winfsp-2.0.23075.msi), or from the WinFsp [GitHub Repository](https://github.com/winfsp/winfsp/releases/download/v1.10/winfsp-1.10.22006.msi). 
 2. Download and install [Rclone 64 bit](https://downloads.rclone.org/v1.65.0/rclone-v1.65.0-windows-amd64.zip) by downloading it from [Rclone official website](https://rclone.org/)
-3. Create a new directory: C:\Rlone\Rclone
+3. Create a new directory: **C:\Rlone\Rclone**
 4. Navigate to C:\Rlone\Rclone and paste the following from this repository:
   - rclone.conf
   - rclone.exe
@@ -61,7 +61,7 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
 
 
 For additional configuration options refer to the [official Rclone guide](https://rclone.org/s3/#configuration)
- 6. After completing the configuration process, use the Rclone.ps1 to mount the network drive.
+6. After completing the configuration process, use the [Rclone.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/rclone.ps1) to mount the network drive.
   Alternatively, you can mount the drive and set a drive letter by typing the following command line:
   ```nh
   cmd /c "c:\rclone\rclone\rclone.exe"  mount <DriveName>:/<DriveName>/ <DriveLetter>: --vfs-cache-mode full 
