@@ -102,7 +102,7 @@ For additional configuration options refer to the [official Rclone guide](https:
     Set-ScheduledTask -TaskName $TaskName -Principal $TaskPrincipal -Settings $TaskSettings
    ```
 
-Alternatively, you can edit and use the S3_to_Network_Drive_Deployment_Script.ps1 that I've written, which can automatically:
+Alternatively, you can edit and use the [S3_to_Network_Drive_Deployment_Script.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/S3_to_Network_Drive_Deployment_Script.ps1) that I've written, which can automatically:
 - Create the local directories.
 - Pull and execute the installation files from a different AWS S3 Bucket.
 - Mount the drive. 
