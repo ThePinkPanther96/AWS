@@ -40,7 +40,7 @@ In this part, we will make the S3 Bucket and pair it with the group and user tha
 
 1. Navigate to **"S3" > "Create bucket"**
 2. Give the bucket the same name as the IAM user you've created previously.
-3. Under Block **Public Access settings for this bucket** make sure that it is set to **"Block all public access"**
+3. Under ***BlockPublic Access settings for this bucket** make sure that it is set to **"Block all public access"**
 4. Under Default **Default Encryption** make sure that it is set on **Server-side encryption with Amazon S3 managed keys)**
 5. Click on **"Create bucket"**
 6. Navigate back to the **bucket > Permissions > Bucket policy > Edit**
