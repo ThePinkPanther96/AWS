@@ -20,7 +20,9 @@ In this section, we will configure a new S3 Bucket with the correct permissions,
 3. Navigate to **IAM > User groups > Create group** (I named my group "s3fs-windows" so it will be easily recognizable).
 4. Navigate to the newly created **IAM group > Permissions > Add permissions > Create inline policy > JSON**
 5. Clear the text editor and paste the content of [**s3_iam_user_permissions.json**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_iam_user_permissions.json) After editing the file according to your configuration layout (see instructions in the JSON file).
-6. Click on **"Review policy"** and you are done with the group for now. 
+6. Click on **"Review policy"** and you are done with the group for now.
+
+   *NOTE!* If you don't have an existing S3 Bucket, you'll need to enter the desired bucket name beforehand when configuring the group's permissions in the JSON file. 
 
 ### Create an IAM user
 1. Navigate to **IAM > Users > Add users** 
@@ -30,7 +32,7 @@ In this section, we will configure a new S3 Bucket with the correct permissions,
 5. Under **"Key"** write **"Name"** and under Value Write the name of the new **IAM user > click "Next"**
 6. Review the user settings and click **"Create user"**
   
-  #### NOTE! Make sure to save the user's "Access key ID" and "Secret access key". you will need them later.
+   *NOTE!* Make sure to save the user's "Access key ID" and "Secret access key". you will need them later.
 
 
 ### Create S3 Bucket
@@ -38,11 +40,13 @@ In this part, we will make the S3 Bucket and pair it with the group and user tha
 
 1. Navigate to **"S3" > "Create bucket"**
 2. Give the bucket the same name as the IAM user you've created previously.
-3. Make sure that you are in the right AWS Region and that **"Block Public Access settings"** are set on **"Block all public access"**
-4. Click on **"Create bucket"**
-5. Navigate back to the **bucket > Permissions > Bucket policy > Edit**
-6. In the text editor paste the content of [**s3_bucket_permissions.json**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_bucket_permissions.json) After editing the file according to your configuration layout (see instructions in the JSON file). 
-7. Click on **"Save Changes"** and you are done with AWS.
+3. Under **"Block Public Access settings for this bucket"** make sure that it is set to **"Block all public access"**
+4. Under **"Default Encryption"** make sure that it is set on **"Server-side encryption with Amazon S3 managed keys"**
+5. Click on **"Create bucket"**
+6. Navigate back to the **bucket > Permissions > Bucket policy > Edit**
+7. After editing [**s3_bucket_permissions.json**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_bucket_permissions.json) according to your configuration, paste it in the text editor under **Policy**
+8. After editing the file according to your configuration layout (see instructions in the JSON file). 
+9. Click on **"Save Changes"** and you are done with AWS.
 
 
 ## Client side
@@ -52,55 +56,59 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
 2. Download and install [Rclone 64 bit](https://downloads.rclone.org/v1.65.0/rclone-v1.65.0-windows-amd64.zip) by downloading it from [Rclone official website](https://rclone.org/)
 3. Create a new directory: **C:\Rlone\Rclone**
 4. Navigate to C:\Rlone\Rclone and paste the following from this repository:
-  - rclone.conf
-  - rclone.exe
+    - rclone.conf
+    - rclone.exe
 5. Edit rclone.conf and complete the following parameters under [BucketName]:
-  - access_key_id = 
-  - secret_access_key = 
-  - region = 
+    ```
+    access_key_id = 
+    secret_access_key = 
+    region = 
+    ```
 
+    *NOTE!* For additional configuration options refer to the [official Rclone guide](https://rclone.org/s3/#configuration)
 
-For additional configuration options refer to the [official Rclone guide](https://rclone.org/s3/#configuration)
 6. After completing the configuration process, use the [Rclone.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/rclone.ps1) to mount the network drive.
-  Alternatively, you can mount the drive and set a drive letter by typing the following command line:
-  ```nh
-  cmd /c "c:\rclone\rclone\rclone.exe"  mount <DriveName>:/<DriveName>/ <DriveLetter>: --vfs-cache-mode full 
-  ```
- ## Creating scheduled task to mount the drive on each system startup
-   Use the following code block to create the task:
-   ```nh
-   	## The name and description of the scheduled task.
-    $TaskName = "Rclone"
-    $Description = "Map AWS S3 to Windows Network Drive"
-    
-    ## Create a new task action
-    $TaskAction = New-ScheduledTaskAction `
-        -Execute 'powershell.exe' `
-        -Argument '-WindowStyle hidden -file C:\Rclone\Rclone.ps1'
-    
-    ## Create a new trigger (At LogOn)
-    $TaskTriger = New-ScheduledTaskTrigger -AtLogOn
-    
-    Register-ScheduledTask `
-        -TaskName $TaskName `
-        -Action $TaskAction `
-        -Trigger $TaskTriger `
-        -Description $Description `
-        -User "System" `
-    
-    ## Set the task principal's user ID and run level.
-    $TaskPrincipal = New-ScheduledTaskPrincipal `
-        -UserId "LOCALSERVICE" `
-        -LogonType ServiceAccount `
-        -RunLevel Highest `
-    
-    ## Set the task compatibility value to Windows 7
-    ## Making sure it runs well on laptops as well.
-    $TaskSettings = New-ScheduledTaskSettingsSet -Compatibility Win7 -AllowStartIfOnBatteries:$true
-    
-    ## Set additional settings.
-    Set-ScheduledTask -TaskName $TaskName -Principal $TaskPrincipal -Settings $TaskSettings
-   ```
+
+    Alternatively, you can mount the drive and set a drive letter by typing the following command line:
+    ```nh
+    cmd /c "c:\rclone\rclone\rclone.exe"  mount <DriveName>:/<DriveName>/ <DriveLetter>: --vfs-cache-mode full 
+    ```
+## Creating scheduled task to mount the drive on each system startup
+   Use the following code block to create the task: 
+       
+       ```
+       	## The name and description of the scheduled task.
+        $TaskName = "Rclone"
+        $Description = "Map AWS S3 to Windows Network Drive"
+        
+        ## Create a new task action
+        $TaskAction = New-ScheduledTaskAction `
+            -Execute 'powershell.exe' `
+            -Argument '-WindowStyle hidden -file C:\Rclone\Rclone.ps1'
+        
+        ## Create a new trigger (At LogOn)
+        $TaskTriger = New-ScheduledTaskTrigger -AtLogOn
+        
+        Register-ScheduledTask `
+            -TaskName $TaskName `
+            -Action $TaskAction `
+            -Trigger $TaskTriger `
+            -Description $Description `
+            -User "System" `
+        
+        ## Set the task principal's user ID and run level.
+        $TaskPrincipal = New-ScheduledTaskPrincipal `
+            -UserId "LOCALSERVICE" `
+            -LogonType ServiceAccount `
+            -RunLevel Highest `
+        
+        ## Set the task compatibility value to Windows 7
+        ## Making sure it runs well on laptops as well.
+        $TaskSettings = New-ScheduledTaskSettingsSet -Compatibility Win7 -AllowStartIfOnBatteries:$true
+        
+        ## Set additional settings.
+        Set-ScheduledTask -TaskName $TaskName -Principal $TaskPrincipal -Settings $TaskSettings
+       ```
 
 Alternatively, you can edit and use the [S3_to_Network_Drive_Deployment_Script.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/S3_to_Network_Drive_Deployment_Script.ps1) that I've written, which can automatically:
 - Create the local directories.
