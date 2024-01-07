@@ -20,7 +20,8 @@ In this section, we will configure a new S3 Bucket with the correct permissions,
 3. Navigate to **IAM > User groups > Create group** (I named my group "s3fs-windows" so it will be easily recognizable).
 4. Navigate to the newly created **IAM group > Permissions > Add permissions > Create inline policy > JSON**
 5. Clear the text editor and paste the content of [**s3_iam_user_permissions.json**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_iam_user_permissions.json) After editing the file according to your configuration layout (see instructions in the JSON file).
-6. Click on **"Review policy"** and you are done with the group for now. 
+6. Click on **"Review policy"** and you are done with the group for now.
+   *NOTE!* If you don't have an existing S3 Bucket, you'll need to enter the desired bucket name beforehand when configuring the group's permissions in the JSON file. 
 
 ### Create an IAM user
 1. Navigate to **IAM > Users > Add users** 
