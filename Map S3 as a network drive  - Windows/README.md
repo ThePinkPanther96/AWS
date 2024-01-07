@@ -57,10 +57,11 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
   - rclone.conf
   - rclone.exe
 5. Edit rclone.conf and complete the following parameters under [BucketName]:
-  - access_key_id = 
-  - secret_access_key = 
-  - region = 
-
+    ```
+    access_key_id = 
+    secret_access_key = 
+    region = 
+    ```
 
     *NOTE!* For additional configuration options refer to the [official Rclone guide](https://rclone.org/s3/#configuration)
 
