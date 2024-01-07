@@ -1,9 +1,7 @@
-// Replace "USER_NAME" with the IAM Username from your AWS account.
 // Replace "BUCKET_NAME" with the name of your S3 Bucket in AWS.
 // Replace "USER_ARN_NUMBER" with the ARN number of the user from your AWS account.
 // Replace "REGION" with the AWS region where your S3 Bucket is located.
-
-//DO NOT FORGET TO DELETE THE COMMNETS FROM THE FILE!!
+//DO NOT FORGET TO DELETE THE COMMNETS!
 
 {
     "Version": "2012-10-17",
@@ -12,7 +10,7 @@
             "Sid": "1",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::USER_ARN_NUMBER:user/USER_NAME"
+                "AWS": "arn:aws:iam::USER_ARN_NUMBER:user"
             },
             "Action": [
                 "s3:ListBucket",
