@@ -40,8 +40,8 @@ In this part, we will make the S3 Bucket and pair it with the group and user tha
 
 1. Navigate to **"S3" > "Create bucket"**
 2. Give the bucket the same name as the IAM user you've created previously.
-3. Under ***BlockPublic Access settings for this bucket** make sure that it is set to **"Block all public access"**
-4. Under Default **Default Encryption** make sure that it is set on **Server-side encryption with Amazon S3 managed keys)**
+3. Under ***"Block Public Access settings for this bucket"** make sure that it is set to **"Block all public access"**
+4. Under **"Default Encryption"** make sure that it is set on **"Server-side encryption with Amazon S3 managed keys"**
 5. Click on **"Create bucket"**
 6. Navigate back to the **bucket > Permissions > Bucket policy > Edit**
 7. After editing [**s3_bucket_permissions.json**](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/s3_bucket_permissions.json) according to your configuration, paste it in the text editor under **Policy**
