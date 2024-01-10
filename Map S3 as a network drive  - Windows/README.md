@@ -67,7 +67,7 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
 
     *NOTE!* For additional configuration options refer to the [official Rclone guide](https://rclone.org/s3/#configuration)
 
-6. After completing the configuration process, use the [Rclone.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/rclone.ps1) to mount the network drive.
+6. After completing the configuration process, use the [Mount.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/Mount.ps1) to mount the network drive.
 
     Alternatively, you can mount the drive and set a drive letter by typing the following command line:
     ```nh
