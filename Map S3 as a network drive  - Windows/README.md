@@ -55,10 +55,11 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
 1. Download and install the latest version of the WinFsp MSI package from the [WinFsp official website](https://github.com/winfsp/winfsp/releases/download/v2.0/winfsp-2.0.23075.msi), or from the WinFsp [GitHub Repository](https://github.com/winfsp/winfsp/releases/download/v1.10/winfsp-1.10.22006.msi). 
 2. Download and install [Rclone 64 bit](https://downloads.rclone.org/v1.65.0/rclone-v1.65.0-windows-amd64.zip) by downloading it from [Rclone official website](https://rclone.org/)
 3. Create a new directory: **C:\Rlone\Rclone**
-4. Navigate to C:\Rlone\Rclone and paste the following from this repository:
+4. Navigate to C:\Rclone\ and paste  [Mount.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/Mount.ps1)
+5. Navigate to C:\Rlone\Rclone and paste the following from this repository:
     - rclone.conf
     - rclone.exe
-5. Edit rclone.conf and complete the following parameters under [BucketName]:
+6. Edit rclone.conf and complete the following parameters under [BucketName]:
     ```
     access_key_id = 
     secret_access_key = 
@@ -67,12 +68,13 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
 
     *NOTE!* For additional configuration options refer to the [official Rclone guide](https://rclone.org/s3/#configuration)
 
-6. After completing the configuration process, use the [Mount.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/Mount.ps1) to mount the network drive.
-
-    Alternatively, you can mount the drive and set a drive letter by typing the following command line:
+7. After completing the configuration process, use the [Mount.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/Mount.ps1) to mount the network drive.
     ```nh
     cmd /c "c:\rclone\rclone\rclone.exe"  mount <DriveName>:/<DriveName>/ <DriveLetter>: --vfs-cache-mode full 
     ```
+
+    *NOTE!* You can create a scheduled task to run [Mount.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/Mount.ps1) at startup. (See example below)
+   
 ## Creating scheduled task to mount the drive on each system startup
    Use the following code block to create the task: 
        
