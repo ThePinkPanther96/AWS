@@ -66,7 +66,7 @@ function Set-Task {
     param (
         [string]$global:TaskName = "Rclone",
         [string]$global:Description = "Map AWS S3 to Windows Network Drive",
-        [string]$global:Arguments = "-WindowStyle hidden -file C:\Rlone\Mount.ps1",
+        [string]$global:Arguments = "-WindowStyle hidden -file C:\Rclone\Mount.ps1",
         [string]$global:User = "SYSTEM"
     )
     $TaskAction = New-ScheduledTaskAction `
