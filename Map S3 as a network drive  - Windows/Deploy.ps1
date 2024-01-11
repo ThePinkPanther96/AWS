@@ -5,7 +5,7 @@ It includes functions to download necessary files from an S3 bucket, install req
 and create a scheduled task to run a PowerShell script at logon.
 
 .NOTES
-File Name      : Mount.ps1
+File Name      : Deploy.ps1
 Prerequisite   : PowerShell, AWS Tools for PowerShell
 Dependencies   : AWSPowerShell
 Copyright 2024 - Gal Rozman
