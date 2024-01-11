@@ -76,47 +76,49 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
     *NOTE!* You can create a scheduled task to run [Mount.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/Mount.ps1) at startup. (See example below)
    
 ## Creating scheduled task to mount the drive on each system startup
-   Use the following code block to create the task: 
-       
-       ```
-       	## The name and description of the scheduled task.
-        $TaskName = "Rclone"
-        $Description = "Map AWS S3 to Windows Network Drive"
-        
-        ## Create a new task action
-        $TaskAction = New-ScheduledTaskAction `
-            -Execute 'powershell.exe' `
-            -Argument '-WindowStyle hidden -file C:\Rclone\Rclone.ps1'
-        
-        ## Create a new trigger (At LogOn)
-        $TaskTriger = New-ScheduledTaskTrigger -AtLogOn
-        
-        Register-ScheduledTask `
-            -TaskName $TaskName `
-            -Action $TaskAction `
-            -Trigger $TaskTriger `
-            -Description $Description `
-            -User "System" `
-        
-        ## Set the task principal's user ID and run level.
-        $TaskPrincipal = New-ScheduledTaskPrincipal `
-            -UserId "LOCALSERVICE" `
-            -LogonType ServiceAccount `
-            -RunLevel Highest `
-        
-        ## Set the task compatibility value to Windows 7
-        ## Making sure it runs well on laptops as well.
-        $TaskSettings = New-ScheduledTaskSettingsSet -Compatibility Win7 -AllowStartIfOnBatteries:$true
-        
-        ## Set additional settings.
-        Set-ScheduledTask -TaskName $TaskName -Principal $TaskPrincipal -Settings $TaskSettings
-       ```
+   Use the function taken from the deployment script to create a scheduled task: 
 
-Alternatively, you can edit and use the [S3_to_Network_Drive_Deployment_Script.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/S3_to_Network_Drive_Deployment_Script.ps1) that I've written, which can automatically:
-- Create the local directories.
-- Pull and execute the installation files from a different AWS S3 Bucket.
-- Mount the drive. 
-- Create the task.
+```
+function Set-Task {
+    param (
+        [string]$global:TaskName = "Rclone",
+        [string]$global:Description = "Map AWS S3 to Windows Network Drive",
+        [string]$global:Arguments = "-WindowStyle hidden -file C:\Rlone\Mount.ps1",
+        [string]$global:User = "SYSTEM"
+    )
+    $TaskAction = New-ScheduledTaskAction `
+        -Execute 'powershell.exe' `
+        -Argument $Arguments `
+    
+    $TaskTriger = New-ScheduledTaskTrigger -AtLogOn
+    
+    Register-ScheduledTask `
+        -TaskName $TaskName `
+        -Action $TaskAction `
+        -Trigger $TaskTriger `
+        -Description $Description `
+        -User $User `
+    
+    $TaskPrincipal = New-ScheduledTaskPrincipal `
+        -UserId "LOCALSERVICE" `
+        -LogonType ServiceAccount `
+        -RunLevel Highest `
+        
+    $TaskSettings = New-ScheduledTaskSettingsSet `
+        -Compatibility Win7 `
+        -AllowStartIfOnBatteries:$true `
+    
+    Set-ScheduledTask -TaskName $TaskName `
+        -Principal $TaskPrincipal `
+        -Settings $TaskSettings `
+}
+```
+
+Alternatively, you can edit and use the [Deploy.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/Deploy.ps1) that I've written, which can automatically:
+- Download data from a S3 Bucket.
+- Create the necessary local directories. 
+- Create a scheduled task to mount the drive on each system startup.
+
 Just edit the script according to your specifications. 
 Use the comments in the script to help you with the configuration.  
 
