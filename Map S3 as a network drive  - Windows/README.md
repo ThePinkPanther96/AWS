@@ -6,10 +6,11 @@ I first encountered this remarkable open-source solution when tasked with concep
 
 
 ## Requirements
-- An active AWS account with administrative privileges.
+- Active AWS account with administrative privileges.
 - Windows 10 client.
 - Basic understanding of PowerShell.
 - Basic understanding of JSON.
+- PowerShell Module on the endpoint: AWSPowerShell
 
 
 ## AWS side
