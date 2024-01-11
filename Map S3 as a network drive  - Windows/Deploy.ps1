@@ -8,7 +8,7 @@ and create a scheduled task to run a PowerShell script at logon.
 File Name      : Deploy.ps1
 Prerequisite   : PowerShell, AWS Tools for PowerShell
 Dependencies   : AWSPowerShell
-Copyright 2024 - Gal Rozman
+Copyright 2024 - Gal R
 
 
 .FUNCTIONALITY
