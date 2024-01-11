@@ -77,41 +77,43 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
    
 ## Creating scheduled task to mount the drive on each system startup
    Use the function taken from the deployment script to create a scheduled task: 
-  ```
-    function Set-Task {
-        param (
-            [string]$global:TaskName = "Rclone",
-            [string]$global:Description = "Map AWS S3 to Windows Network Drive",
-            [string]$global:Arguments = "-WindowStyle hidden -file C:\Rlone\Mount.ps1",
-            [string]$global:User = "SYSTEM"
-        )
-        $TaskAction = New-ScheduledTaskAction `
-            -Execute 'powershell.exe' `
-            -Argument $Arguments `
+
+```
+function Set-Task {
+    param (
+        [string]$global:TaskName = "Rclone",
+        [string]$global:Description = "Map AWS S3 to Windows Network Drive",
+        [string]$global:Arguments = "-WindowStyle hidden -file C:\Rlone\Mount.ps1",
+        [string]$global:User = "SYSTEM"
+    )
+    $TaskAction = New-ScheduledTaskAction `
+        -Execute 'powershell.exe' `
+        -Argument $Arguments `
+    
+    $TaskTriger = New-ScheduledTaskTrigger -AtLogOn
+    
+    Register-ScheduledTask `
+        -TaskName $TaskName `
+        -Action $TaskAction `
+        -Trigger $TaskTriger `
+        -Description $Description `
+        -User $User `
+    
+    $TaskPrincipal = New-ScheduledTaskPrincipal `
+        -UserId "LOCALSERVICE" `
+        -LogonType ServiceAccount `
+        -RunLevel Highest `
         
-        $TaskTriger = New-ScheduledTaskTrigger -AtLogOn
-        
-        Register-ScheduledTask `
-            -TaskName $TaskName `
-            -Action $TaskAction `
-            -Trigger $TaskTriger `
-            -Description $Description `
-            -User $User `
-        
-        $TaskPrincipal = New-ScheduledTaskPrincipal `
-            -UserId "LOCALSERVICE" `
-            -LogonType ServiceAccount `
-            -RunLevel Highest `
-            
-        $TaskSettings = New-ScheduledTaskSettingsSet `
-            -Compatibility Win7 `
-            -AllowStartIfOnBatteries:$true `
-        
-        Set-ScheduledTask -TaskName $TaskName `
-            -Principal $TaskPrincipal `
-            -Settings $TaskSettings `
-    }
-    ```
+    $TaskSettings = New-ScheduledTaskSettingsSet `
+        -Compatibility Win7 `
+        -AllowStartIfOnBatteries:$true `
+    
+    Set-ScheduledTask -TaskName $TaskName `
+        -Principal $TaskPrincipal `
+        -Settings $TaskSettings `
+}
+```
+
 Alternatively, you can edit and use the [Deploy.ps1](https://github.com/ThePinkPanther96/AWS/blob/main/Map%20S3%20as%20a%20network%20drive%20%20-%20Windows/Deploy.ps1) that I've written, which can automatically:
 - Download data from a S3 Bucket.
 - Create the necessary local directories. 
