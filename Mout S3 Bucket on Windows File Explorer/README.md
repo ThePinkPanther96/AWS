@@ -1,4 +1,4 @@
-# Map S3 Bucket to a network shared drive on Windows
+# Mout S3 Bucket to Windows File Explorer
 ## Introduction
 In this tutorial, I will guide you through the process of transforming a standard AWS S3 Bucket into a fully functional shared network drive on your Windows endpoint. By leveraging a few open-source tools and a straightforward PowerShell script, you can easily and affordably establish a solution for storing and sharing extensive data across multiple endpoints. This approach eliminates the need for consistently monitoring disk space and expanding storage capacity. Since it relies on the foundation of an S3 Bucket, the storage is elastic, dynamically scaling to meet demand without requiring initial provisioning.
 
