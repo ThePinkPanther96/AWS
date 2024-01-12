@@ -6,10 +6,11 @@ I first encountered this remarkable open-source solution when tasked with concep
 
 
 ## Requirements
-- An active AWS account with administrative privileges.
+- Active AWS account with administrative privileges.
 - Windows 10 client.
 - Basic understanding of PowerShell.
 - Basic understanding of JSON.
+- PowerShell Module on the endpoint: AWSPowerShell
 
 
 ## AWS side
@@ -59,8 +60,12 @@ Now let's move to the client's side, where the actual "Network Drive" will be mo
 5. Navigate to C:\Rlone\Rclone and paste the following from this repository:
     - rclone.conf
     - rclone.exe
-6. Edit rclone.conf and complete the following parameters under [BucketName]:
+6. Edit rclone.conf and complete the following parameters as well as [BucketName]:
     ```
+    [BucketName]
+    type = s3
+    provider = AWS
+    env_auth = false
     access_key_id = 
     secret_access_key = 
     region = 
