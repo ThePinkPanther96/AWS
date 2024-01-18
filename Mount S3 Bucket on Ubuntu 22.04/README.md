@@ -10,5 +10,12 @@ In this tutorial, I will instruct you on how to mount an AWS S3 Bucket on the Ub
 - S3 Bucket configured with the appropriate permissions
   *(See[Mount S3 Bucket on Windows File Explorer](https://github.com/ThePinkPanther96/AWS/blob/main/Mount%20S3%20Bucket%20on%20Windows%20File%20Explorer/README.md) to learn how to create S3 and IAM permissions)*
 
+## Configuration 
+1. Update the system and install [s3fs-fuse](https://github.com/s3fs-fuse/s3fs-fuse):
+```
+apt -y update
 
+apt install -y s3fs
+```
+2. 
 
