@@ -13,8 +13,8 @@ In this tutorial, I will instruct you on how to mount an AWS S3 Bucket on the Ub
 
 ## Configuration 
 1. Update the system and install [s3fs-fuse](https://github.com/s3fs-fuse/s3fs-fuse)
-  ```
-  sudo apt update -y
-  sudo apt install s3fs -y
-  ```
+   ```
+   sudo apt update -y
+   sudo apt install s3fs -y
+   ```
 2. 
