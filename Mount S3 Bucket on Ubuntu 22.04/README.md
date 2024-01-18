@@ -17,4 +17,17 @@ In this tutorial, I will instruct you on how to mount an AWS S3 Bucket on the Ub
    sudo apt update -y
    sudo apt install s3fs -y
    ```
-2. 
+2. Create a mounting point
+   ```
+   mkdir /mnt/BUCKET NAME>
+   ```
+3. Create a configuration file with the IAM Access key & Secret key
+   ```
+   echo ACCESS_KEY:SECRET_ACCESS_KEY > ~/.passwd-s3fs
+   ```
+   *See example: ```echo AKIA4SK3HPQ9FLWO8AMB:esrhLH4m1Da+3fJoU5xet1/ivsZ+Pay73BcSnzP > ~/.passwd-s3fs```*
+
+
+
+
+   
