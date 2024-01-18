@@ -57,7 +57,10 @@ In this tutorial, I will instruct you on how to mount an AWS S3 Bucket on the Ub
   ```
   sudo umount /mnt/<BUCKET NAME>
   ```
-- 
-  
+
+I trust this guide equips you with the essential information to commence your project.
+Should you have any inquiries or suggestions, please don't hesitate to reach out to me.
+Many thanks! 😊
+
 
    
