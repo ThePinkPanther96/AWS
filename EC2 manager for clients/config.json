@@ -1,6 +1,6 @@
 {
-    "access_key": "",
-    "secret_access_key": "",
+    "access_key": "AKIAR2QC6VD4QZHC73QV",
+    "secret_access_key": "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",
     "region": "eu-central-1",
     "id_list": ["ubuntu-1"]
 }
