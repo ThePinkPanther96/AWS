@@ -1,5 +1,6 @@
 import boto3
 import json
+from colorama import Fore
 
 with open('./config.json', 'r') as f:
     config = json.load(f)
@@ -26,44 +27,56 @@ def ec2_status(names):
     return False
 
 
-def start_ec2(names):
-    for name in names:
-        response = ec2.describe_instances(
-            Filters=[
-                {'Name': 'tag:Name', 'Values': [name]}
-            ]
-        )
-        for reservation in response['Reservations']:
-            for instance in reservation['Instances']:
-                result = ec2_status([name])  # Pass individual instance name
-                if result is False:
-                    print(f"{name} is off")
-                    response = ec2.start_instances(InstanceIds=[instance['InstanceId']])
-                    print(f"{name} was started")
-                else:
-                    print(f"{name} is already working")
-    return True
+def start_ec2(names) -> list:
+    try:
+        for name in names:
+            response = ec2.describe_instances(
+                Filters=[
+                    {'Name': 'tag:Name', 'Values': [name]}
+                ]
+            )
+            for reservation in response['Reservations']:
+                for instance in reservation['Instances']:
+                    result = ec2_status([name])
+
+                    if result is False:
+                        print(Fore.YELLOW + f"Attempting to start {name}")
+                        response = ec2.start_instances(InstanceIds=[instance['InstanceId']])
+                        print(Fore.GREEN + f"{name} was started")
+                    else:
+                        print(Fore.BLUE + f"{name} is already working")
+    
+    except Exception as err: 
+        print(Fore.RED + f"Unexpected {err=}, {type(err)=}")
+        raise
 
 
 
-def stop_ec2(names):
-    instances_to_stop = []
-    response = ec2.describe_instances(
-        Filters=[
-            {'Name': 'tag:Name', 'Values': names}
-        ]
-    )
-    for reservation in response['Reservations']:
-        for instance in reservation['Instances']:
-            instances_to_stop.append(instance['InstanceId'])
-
-    response = ec2.stop_instances(InstanceIds=instances_to_stop)
-    print(response)
+def stop_ec2(names) -> list:
+    try:
+        for name in names:
+            response = ec2.describe_instances(
+                Filters=[
+                    {'Name': 'tag:Name', 'Values': [name]}
+                ]
+            )
+            for reservation in response['Reservations']:
+                for instance in reservation['Instances']:
+                    result = ec2_status([name])
+                    
+                    if result is True:
+                        print(Fore.YELLOW + f"Attempting to stop {name}")
+                        response = ec2.stop_instances(InstanceIds=[instance['InstanceId']])
+                        print(Fore.GREEN + f"{name} stoped")
+                    else:
+                        print(Fore.BLUE + f"{name} is already off")
+    
+    except Exception as err: 
+        print(Fore.RED + f"Unexpected {err=}, {type(err)=}")
+        raise
 
 
 #------------------------------------------------------------------------------------------
 
-#------------------------------------------------------------------------------------------
-#ec2_status(name_list)
-start_ec2(name_list)
-#stop_ec2(name_list)
+#start_ec2(name_list)
+stop_ec2(name_list)
