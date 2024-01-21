@@ -27,18 +27,23 @@ def ec2_status(names):
 
 
 def start_ec2(names):
-    instances_to_start = []
-    response = ec2.describe_instances(
-        Filters=[
-            {'Name': 'tag:Name', 'Values': names}
-        ]
-    )
-    for reservation in response['Reservations']:
-        for instance in reservation['Instances']:
-            instances_to_start.append(instance['InstanceId'])
+    for name in names:
+        response = ec2.describe_instances(
+            Filters=[
+                {'Name': 'tag:Name', 'Values': [name]}
+            ]
+        )
+        for reservation in response['Reservations']:
+            for instance in reservation['Instances']:
+                result = ec2_status([name])  # Pass individual instance name
+                if result is False:
+                    print(f"{name} is off")
+                    response = ec2.start_instances(InstanceIds=[instance['InstanceId']])
+                    print(f"{name} was started")
+                else:
+                    print(f"{name} is already working")
+    return True
 
-    response = ec2.start_instances(InstanceIds=instances_to_start)
-    print(response)
 
 
 def stop_ec2(names):
@@ -58,14 +63,7 @@ def stop_ec2(names):
 
 #------------------------------------------------------------------------------------------
 
-result = ec2_status(name_list)
-
-if result:
-    print("At least one instance is running.")
-else:
-    print("No instances are running.")
 #------------------------------------------------------------------------------------------
-ec2_status(name_list)
+#ec2_status(name_list)
 start_ec2(name_list)
 #stop_ec2(name_list)
-
