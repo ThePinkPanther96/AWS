@@ -19,7 +19,7 @@ ec2 = boto3.client('ec2',
                    region_name=region)
 
 
-def ec2_status(names):
+def ec2_status(names) -> list:
     response = ec2.describe_instances(
         Filters=[
             {'Name': 'tag:Name', 'Values': names}
@@ -31,7 +31,7 @@ def ec2_status(names):
                 state = instance['State']['Name']
                 if state == 'running':
                     return True 
-    return False
+        return False
 
 
 def start_ec2(names) -> list:
@@ -58,7 +58,6 @@ def start_ec2(names) -> list:
         raise
 
 
-
 def stop_ec2(names) -> list:
     try:
         for name in names:
@@ -83,13 +82,12 @@ def stop_ec2(names) -> list:
         raise
 
 
-def mian():
+def main():
     main_menu = (
     f"""{Fore.BLUE}Welcome!
     {Fore.WHITE}Please choose an option:
     {Fore.WHITE}1. Turn on EC2
     {Fore.WHITE}2. Turn off EC2
-    {Fore.WHITE}3. Check EC2 status
 
     {Fore.WHITE}4. Quit
     """ )
@@ -118,22 +116,32 @@ def mian():
                     start_ec2(selected_values)
                     if selected_values_str not in name_list:
                         print(Fore.RED + f"Invalid Input! Please Enter a Valid Option From The List")
-                        sleep(1)
                         continue
+                    else:
+                        sleep(1.5)
+                        user_input = int(input(f"{main_menu}"))
+                        break
                 except Exception as Error:
                     print(Fore.RED + f"Unexpected {Error=}, {type(Error)=}")
         
-
-                
+        if user_input == 2:
+            while True:
+                try:
+                    print(Fore.CYAN + f"\n{name_list}\n")
+                    selected_values_str = input(Fore.WHITE + "Enter values to select (comma-separated): ")
+                    selected_values_list = [str(value.strip()) for value in selected_values_str.split(',')]
+                    selected_values = [x for x in name_list if x in selected_values_list]
+                    stop_ec2(selected_values)
+                    if selected_values_str not in name_list:
+                        print(Fore.RED + f"Invalid Input! Please Enter a Valid Option From The List")
+                        continue
+                    else:
+                        sleep(1.5)
+                        user_input = int(input(f"{main_menu}"))
+                        break
+                except Exception as Error:
+                    print(Fore.RED + f"Unexpected {Error=}, {type(Error)=}")
 
             
-
-
-
-
-
-
-
-
-#start_ec2(name_list)
-#stop_ec2(name_list)
+if __name__ == "__main__":
+    main()
