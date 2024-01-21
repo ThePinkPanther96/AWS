@@ -102,10 +102,7 @@ def main():
             print(Fore.RED + f"Invalid Input! Please Enter a Valid Option From The Menu!")
             sleep(1.5)
             continue
-        if user_input == 4:
-            print("Logging out...")
-            sleep(1)
-            sys.exit(0)
+
         if user_input == 1:
             while True:
                 try:
@@ -141,7 +138,13 @@ def main():
                         break
                 except Exception as Error:
                     print(Fore.RED + f"Unexpected {Error=}, {type(Error)=}")
+           
+        if user_input == 4:
+            print("Logging out...")
+            sleep(1)
+            sys.exit(0)
 
-            
+
 if __name__ == "__main__":
     main()
+sys.exit
