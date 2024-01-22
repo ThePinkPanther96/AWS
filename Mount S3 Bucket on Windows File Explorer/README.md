@@ -28,10 +28,9 @@ In this section, we will configure a new S3 Bucket with the correct permissions,
 ### Create an IAM user
 1. Navigate to **IAM > Users > Add users** 
 2. Name the new user (The same name that will be given to the network drive).
-3. Under **"Select AWS credentials type"** select **"Access key"** and then click **"Next"**
-4. Select **"Add user to group" > select the group that you created previously > click "Next"**
-5. Under **"Key"** write **"Name"** and under Value Write the name of the new **IAM user > click "Next"**
-6. Review the user settings and click **"Create user"**
+3. Select **"Add user to group" > select the group that you created previously > click "Next"**
+4. Under **"Key"** write **"Name"** and under Value Write the name of the new **IAM user > click "Next"**
+5. Review the user settings and click **"Create user"**
   
    *NOTE!* Make sure to save the user's "Access key ID" and "Secret access key". you will need them later.
 
