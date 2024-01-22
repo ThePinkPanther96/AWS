@@ -1,6 +1,6 @@
 {
     "access_key": "",
     "secret_access_key": "",
-    "region": "eu-central-1",
-    "id_list": ["ubuntu-1"]
+    "region": "REGION",
+    "id_list": ["ec1", "ec2", "ec3"]
 }
