@@ -17,26 +17,26 @@ ec2 = session.client('ec2')
 
 
 def launch_new_Instance(config):
-    starting_ipv4_address = ipaddress.IPv4Address(config["StartingIPv4Address"])
-    num_instances = len(config["name_list"])
+    starting_ipv4_address = ipaddress.IPv4Address(config["ec2_instance_params"]["StartingIPv4Address"])
+    num_instances = len(config["ec2_instance_params"]["name_list"])
     try:
         for instance in range(num_instances):
             ipv4 = str(starting_ipv4_address + instance)
             args = {
-                "ImageId": config["ImageId"],
-                "InstanceType": config["InstanceType"],
-                "MinCount": int(config["MinCount"]),
-                "MaxCount": int(config["MaxCount"]),
-                "SecurityGroupIds": config["SecurityGroupIds"],
-                "SubnetId": config["SubnetId"],
-                "UserData": config["UserData"],
+                "ImageId": config["ec2_instance_params"]["ImageId"],
+                "InstanceType": config["ec2_instance_params"]["InstanceType"],
+                "MinCount": int(config["ec2_instance_params"]["MinCount"]),
+                "MaxCount": int(config["ec2_instance_params"]["MaxCount"]),
+                "SecurityGroupIds": config["ec2_instance_params"]["SecurityGroupIds"],
+                "SubnetId": config["ec2_instance_params"]["SubnetId"],
+                "UserData": config["ec2_instance_params"]["UserData"],
                 "TagSpecifications": [
                     {
                         "ResourceType": "instance",
                         "Tags": [
                             {
                                 "Key": "Name",
-                                "Value": config["name_list"][instance]
+                                "Value": config["ec2_instance_params"]["name_list"][instance]
                             }
                         ]
                     }
@@ -55,6 +55,22 @@ def launch_new_Instance(config):
         print(error)   
 
 
+def launch_instance_from_template():
+    pass
 
 
-launch_new_Instance(config)
+def terminate_instance():
+    pass
+
+
+def create_ebs_vol():
+    pass
+
+
+def check_vol():
+    pass
+
+
+if __name__ == "__main__":
+    launch_new_Instance(config)
+

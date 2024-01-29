@@ -32,8 +32,8 @@ myBlockDeviceMappings=[{
     'DeviceName': '/dev/sda1', 
     'Ebs': {
         'DeleteOnTermination': False,
-        'VolumeSize': 50, # Volume size 
-        'VolumeType': 'gp2', # Volume Type
+        'VolumeSize': 50,
+        'VolumeType': 'gp2',
         'Encrypted': False 
     },
 }]
