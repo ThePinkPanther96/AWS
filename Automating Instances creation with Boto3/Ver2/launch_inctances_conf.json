@@ -1,0 +1,14 @@
+{
+    "access_key": "",
+    "secret_access_key": "",
+    "region": "",
+    "name_list": [],
+    "ImageId": "",
+    "InstanceType": "",
+    "MinCount": 1,
+    "MaxCount": 1,
+    "SecurityGroupIds": [""],
+    "SubnetId": "",
+    "UserData": "",
+    "StartingIPv4Address": ""
+}
