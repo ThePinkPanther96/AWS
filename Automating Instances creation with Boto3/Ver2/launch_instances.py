@@ -5,10 +5,6 @@ import ipaddress
 with open('launch_inctances_conf.json', 'r') as args:
     config = json.load(args)
 
-access_key = config["access_key"]
-secret_access_key = config["secret_access_key"]
-region = config["region"]
-
 ec2 = boto3.client('ec2', region_name=config["region"], 
                            aws_access_key_id=config["access_key"], 
                            aws_secret_access_key=config["secret_access_key"])
@@ -76,7 +72,7 @@ def terminate_instance(config,args):
                     print(f"{name} has already been terminated")
                 else:
                     ec2.terminate_instances(InstanceIds=[instance_id], DryRun=False)
-                    print(f"Instance with name {name}, ID: {instance_id} was terminated")
+                    print(f"Instance {name}, ID: {instance_id} was terminated")
             else:
                 print(f"No instance found with name: {name}")
 
@@ -84,10 +80,6 @@ def terminate_instance(config,args):
         print(error)
 
 
-
 if __name__ == "__main__":
-    #launch_new_instance(config, args)
+   # launch_new_instance(config, args)
     terminate_instance(config,args)
- 
- 
- 

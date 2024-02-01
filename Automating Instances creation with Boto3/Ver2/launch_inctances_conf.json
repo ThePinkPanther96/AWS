@@ -2,7 +2,7 @@
     "access_key": "ACCESS KEY",
     "secret_access_key": "SECRET ACCESS KEY",
     "region": "REGION",
-    "name_list": ["ec1","ec2","ec3"],
+    "name_list": ["ec666"],
     "ImageId": "ami-0faab6bdbac9486fb", 
     "InstanceType": "t2.micro",
     "MinCount": "1",
@@ -10,7 +10,7 @@
     "SecurityGroupIds": ["sg- SECURITY GROUP ID"],
     "SubnetId": "subnet- SUBNET ID",
     "UserData": "#!/bin/bash\n\necho 'Hello, instance!'\necho 'This is multi-line user data.'",
-    "StartingIPv4Address": "172.31.16.1",
+    "StartingIPv4Address": "172.31.16.13",
     "BlockDeviceMappings": [
         {
             "DeviceName": "/dev/sda1",
