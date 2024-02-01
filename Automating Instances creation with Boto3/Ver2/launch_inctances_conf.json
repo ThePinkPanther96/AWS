@@ -1,14 +1,25 @@
 {
-    "access_key": "",
-    "secret_access_key": "",
-    "region": "",
-    "name_list": [],
-    "ImageId": "",
-    "InstanceType": "",
-    "MinCount": 1,
-    "MaxCount": 1,
-    "SecurityGroupIds": [""],
-    "SubnetId": "",
-    "UserData": "",
-    "StartingIPv4Address": ""
+    "access_key": "ACCESS KEY",
+    "secret_access_key": "SECRET ACCESS KEY",
+    "region": "REGION",
+    "name_list": ["ec1","ec2","ec3"],
+    "ImageId": "ami-0faab6bdbac9486fb", 
+    "InstanceType": "t2.micro",
+    "MinCount": "1",
+    "MaxCount": "1",
+    "SecurityGroupIds": ["sg- SECURITY GROUP ID"],
+    "SubnetId": "subnet- SUBNET ID",
+    "UserData": "#!/bin/bash\n\necho 'Hello, instance!'\necho 'This is multi-line user data.'",
+    "StartingIPv4Address": "172.31.16.1",
+    "BlockDeviceMappings": [
+        {
+            "DeviceName": "/dev/sda1",
+            "Ebs": {
+                "DeleteOnTermination": false,
+                "VolumeSize": 50,
+                "VolumeType": "gp2",
+                "Encrypted": false
+            }
+        }
+    ]
 }
