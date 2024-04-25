@@ -1,20 +1,29 @@
+function Connect-Session {
+  param(
+    [Parameter(Mandatory)][string]$key,
+    [Parameter(Mandatory)][string]$SKey,
+    [Parameter(Mandatory)][string]$region
+  )
+  $env:AWS_ACCESS_KEY_ID = $key
+  $env:AWS_SECRET_ACCESS_KEY = $SKey
+  $env:AWS_DEFAULT_REGION = $region
+  try {
+    Import-Module -name AWSPowerShell
+    Initialize-AWSDefaults -AccessKey $key -SecretKey $SKey -Region $region
+  }
+  catch {
+    Write-Host "ERROR: $_" # temp
+  }  
+}
 
-function ConnectToAWS {
-    param (
-        [Parameter(Mandatory)][string]$Accesskey,
-        [Parameter(Mandatory)][string]$SecetKey
-    )
-    if (-not(Get-Module -Name AWSPowerShell )) {
-        Import-Module -Name AWSPowerShell
-    }
-    else {
-       try {
-        Set-AWSCredentials -AccessKey $Accesskey -SecretKey $SecetKey
-       }
-       catch {
-        Write-Host "error"
-       }
-    }
+function Exit-Session {
+  try {
+    Remove-Module -name AWSPowerShell
+    Clear-AWSCredential -force
+  }
+  catch {
+    Write-Host "ERROR: $_" # temp
+  }
 }
 
 
@@ -47,3 +56,15 @@ function AttachIAMPoliciesToGroup {
 function CreateIAMPolicies {
     # (???)
 }
+
+
+
+# temp
+
+$key = ""
+$SKey = ""
+$region = ""
+
+Connect-Session -key $key -SKey $SKey -region $region
+
+# Stop-Session
