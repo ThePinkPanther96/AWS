@@ -1,0 +1,8 @@
+28/04/2024 18:04:18 - [ERROR][Stop-Session] - The term 'Clear-AWSCredential' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+28/04/2024 18:04:39 - [ERROR][Stop-Session] - The term 'Clear-AWSCredential' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+28/04/2024 18:10:34 - [10][death] - fuck my life
+28/04/2024 18:11:14 - [ERROR][Stop-Session] - The term 'Clear-AWSCredential' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+28/04/2024 20:24:45 - [ERROR][GrantConsoleAccess] - Password should meet 1 more of the following requirements: Password should have at least one number, Password should have at least one symbol
