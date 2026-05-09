@@ -1,13 +1,15 @@
 from os import getenv
-from urllib.parse import urlparse
+from urllib.parse import urlencode, urlparse
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
 from botocore.exceptions import *
 import boto3
 import logging
 import gzip
 import io
+import json
 import re 
 import sys
-import requests
 import ipaddress
 import csv
 
@@ -55,6 +57,13 @@ def lambda_handler(event, context):
                 return t[len(prefix):]
         return None
 
+    def find_first_tag(*keys):
+        for key in keys:
+            value = find_tag(key)
+            if value:
+                return value
+        return None
+
     logger.info(f"Received event in elb-4xx-errors: {event}")
     
     # top-level fields - New
@@ -83,11 +92,13 @@ def lambda_handler(event, context):
         
         # Define extra tags that are not even fields (top-level)
         loadbalancer = find_tag("loadbalancer")
-        
         targetgroup  = find_tag("targetgroup")
+        account      = find_first_tag("account_id", "aws_account_id", "aws_account", "account") or account
+        region       = find_first_tag("region", "aws_region") or REGION or region
         
         logger.info(
             f"AWS Account ID: {account}, "
+            f"Region: {region}, "
             f"Load Balancer: {loadbalancer}, Target Group: {targetgroup}"
         )
 
@@ -143,10 +154,9 @@ def lambda_handler(event, context):
             result = get_elb_attributes(loadbalancer, account, region)
             
             if not result:
-                result = get_elb_attributes(loadbalancer, account, region)
                 missing_logs_attributes_notification(loadbalancer, account, region, targetgroup)
                 logger.warning("Access logs not enabled; aborting further processing.")
-                exit(1)     
+                exit(1)
             
             else:
                 bucket, bucket_prefix, _ = result
@@ -349,13 +359,50 @@ def send_investigation_notification(loadbalancer, high_risk: list[tuple[str,int]
 
 
 def get_elb_attributes(loadbalancer, account, region):
-    lb_name = loadbalancer.split('/')[1].title()
-    elb_client = boto3.client("elbv2", region_name=region)
-    try:
-        lb_arn = elb_client.describe_load_balancers(Names=[lb_name])["LoadBalancers"][0]["LoadBalancerArn"]
-        response = elb_client.describe_load_balancer_attributes(LoadBalancerArn=lb_arn)
-    except Exception as e:
-        logger.error(f"Error describing load-balancer attributes for {lb_name}: {e}")
+    if not loadbalancer:
+        logger.error("Missing load-balancer identifier; cannot describe attributes.")
+        return False
+
+    lb_identifier = loadbalancer.strip()
+    lb_name = lb_identifier.split("/")[1] if "/" in lb_identifier else lb_identifier
+    regions_to_try = []
+    for candidate_region in (region, REGION):
+        if candidate_region and candidate_region not in regions_to_try:
+            regions_to_try.append(candidate_region)
+
+    for lookup_region in regions_to_try:
+        elb_client = boto3.client("elbv2", region_name=lookup_region)
+
+        try:
+            if lb_identifier.startswith("arn:aws:elasticloadbalancing:"):
+                lb_arn = lb_identifier
+            elif "/" in lb_identifier:
+                lb_arn = f"arn:aws:elasticloadbalancing:{lookup_region}:{account}:loadbalancer/{lb_identifier}"
+            else:
+                lb_arn = elb_client.describe_load_balancers(Names=[lb_name])["LoadBalancers"][0]["LoadBalancerArn"]
+
+            try:
+                response = elb_client.describe_load_balancer_attributes(LoadBalancerArn=lb_arn)
+            except ClientError:
+                if "/" not in lb_identifier:
+                    raise
+                logger.warning(
+                    "Could not describe attributes using constructed ARN for %s in %s; trying name lookup.",
+                    lb_identifier,
+                    lookup_region
+                )
+                lb_arn = elb_client.describe_load_balancers(Names=[lb_name])["LoadBalancers"][0]["LoadBalancerArn"]
+                response = elb_client.describe_load_balancer_attributes(LoadBalancerArn=lb_arn)
+            break
+        except Exception as e:
+            logger.warning(
+                "Could not resolve load-balancer attributes for %s in %s: %s",
+                lb_identifier,
+                lookup_region,
+                e
+            )
+    else:
+        logger.error(f"Error describing load-balancer attributes for {lb_identifier}: load balancer not found in {regions_to_try}")
         return False
 
     attrs   = {a["Key"]: a["Value"] for a in response.get("Attributes", [])}
@@ -366,7 +413,7 @@ def get_elb_attributes(loadbalancer, account, region):
     bucket = attrs.get("access_logs.s3.bucket")
     bucket_prefix = attrs.get(
         "access_logs.s3.prefix",
-        f"AWSLogs/{account}/elasticloadbalancing/{region}/"
+        f"AWSLogs/{account}/elasticloadbalancing/{lookup_region}/"
     )
     logger.info(f"s3_bucket: {bucket}, prefix: {bucket_prefix}")
     return bucket, bucket_prefix, True
@@ -525,16 +572,21 @@ def extract_error_paths(keys, bucket):
 # AbuseIPDB API key
 def abuse_score(ip: str) -> int:
     """Return AbuseIPDB confidence score for one public IP (0–100)."""
+    url = "https://api.abuseipdb.com/api/v2/check?" + urlencode({
+        "ipAddress": ip,
+        "maxAgeInDays": 1,
+    })
+    request = Request(
+        url,
+        headers={"Key": ABUSE_API_KEY, "Accept": "application/json"},
+        method="GET",
+    )
+
     try:
-        r = requests.get(
-            "https://api.abuseipdb.com/api/v2/check",
-            headers={"Key": ABUSE_API_KEY, "Accept": "application/json"},
-            params={"ipAddress": ip, "maxAgeInDays": 1},
-            timeout=10,
-        )
-        r.raise_for_status()
-        return r.json()["data"]["abuseConfidenceScore"]
-    except requests.exceptions.RequestException as e:
+        with urlopen(request, timeout=10) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+        return payload["data"]["abuseConfidenceScore"]
+    except (HTTPError, URLError, TimeoutError, KeyError, json.JSONDecodeError) as e:
         logger.error("Error fetching abuse score for %s: %s", ip, e)
         return False
 
