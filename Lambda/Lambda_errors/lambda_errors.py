@@ -72,7 +72,7 @@ def send_notification(payload):
 
     message = (
         "Hello, \n"
-        "\nThis is an automated email from the AllCloud CloudOps team."
+        "\nThis is an automated email from the SRE CloudOps team."
         f"\nOur monitoring system has detected an increase in Lambda errors for {function_name} function in account {account}."
         f"\n\n - Function name: {function_name}"
         f"\n - Account: {account}"
@@ -88,7 +88,6 @@ def send_notification(payload):
         "\n - USA: +1 (201) 7318925"
         "\n\nBest Regards,"
         "\nCloudOps Team"
-        "\nAllCloud"
     )
 
     return publish_email(message, subject)
@@ -108,7 +107,7 @@ def send_recovered_notification(payload):
 
     message = (
         "Hello, \n"
-        "\nThis is an automated email from the AllCloud CloudOps team."
+        "\nThis is an automated email from the SRE CloudOps team."
         f"\nThe Lambda error alert for function {function_name} in account {account} has recovered."
         f"\n\n - Function name: {function_name}"
         f"\n - Account: {account}"
@@ -120,7 +119,6 @@ def send_recovered_notification(payload):
         "\n - USA: +1 (201) 7318925"
         "\n\nBest Regards,"
         "\nCloudOps Team"
-        "\nAllCloud"
     )
 
     return publish_email(message, subject)
